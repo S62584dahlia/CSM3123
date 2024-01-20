@@ -1,0 +1,663 @@
+Task 2 
+
+
+(Generics, Objects and Extensions - Kotlin Playground)
+data class Question<T>(
+val questionText: String,
+    val answer: T,
+    val difficulty: Difficulty
+)
+
+enum class Difficulty {
+    EASY, MEDIUM, HARD
+}
+
+class Quiz: ProgressPrintable {
+    override val progressText: String
+    get() = "${answered} of ${total} answered"
+    val question1 = Question<String>("Quoth the raven ___", "nevermore", Difficulty.MEDIUM)
+    val question2 = Question<Boolean>("The sky is green. True or false", false, Difficulty.EASY)
+    val question3 = Question<Int>("How many days are there between full moons?", 28, Difficulty.HARD)
+
+    companion object StudentProgress {
+        var total: Int = 10
+        var answered: Int = 3
+    }
+    
+    fun printQuiz() {
+    question1.let {
+        println(it.questionText)
+        println(it.answer)
+        println(it.difficulty)
+    }
+    println()
+    question2.let {
+        println(it.questionText)
+        println(it.answer)
+        println(it.difficulty)
+    }
+    println()
+    question3.let {
+        println(it.questionText)
+        println(it.answer)
+        println(it.difficulty)
+    }
+    println()
+}
+}
+
+interface ProgressPrintable {
+    val progressText: String
+}
+
+//val Quiz.StudentProgress.progressText: String
+    //get() = "${answered} of ${total} answered"
+
+fun Quiz.StudentProgress.printProgressBar() {
+    repeat(Quiz.answered) { print("▓") }
+    repeat(Quiz.total - Quiz.answered) { print("▒") }
+    println()
+    //println(Quiz.progressText)
+}
+
+fun main() {
+ 	//val question1 = Question<String>("Quoth the raven ___", "nevermore", Difficulty.MEDIUM)
+	//val question2 = Question<Boolean>("The sky is green. True or false", false, Difficulty.EASY)
+	//val question3 = Question<Int>("How many days are there between full moons?", 28, Difficulty.HARD)
+	//println(question1.toString())
+    //println("${StudentProgress.answered} of ${StudentProgress.total} answered.")
+    //println("${Quiz.answered} of ${Quiz.total} answered.")
+    //println(Quiz.progressText)
+    Quiz.printProgressBar()
+    val quiz = Quiz()
+    quiz.printQuiz()
+}
+
+
+Planet
+(Array - Kotlin Playground)
+
+fun main() {
+    val rockPlanets = arrayOf<String>("Mercury", "Venus", "Earth", "Mars")
+    val gasPlanets = arrayOf("Jupiter", "Saturn", "Uranus", "Neptune")
+    val newSolarSystem = arrayOf("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto")
+    val solarSystem = rockPlanets + gasPlanets
+    solarSystem[3] = "Little Earth"
+   	//solarSystem[8] = "Pluto"
+    
+    //println(solarSystem[0])
+	//println(solarSystem[1])
+	//println(solarSystem[2])
+	//println(solarSystem[3])
+	//println(solarSystem[4])
+	//println(solarSystem[5])
+	//println(solarSystem[6])
+	//println(solarSystem[7])
+    println(newSolarSystem[8])
+}
+
+
+(Lists - Kotlin Playground)
+
+fun main() {
+    //val solarSystem = listOf("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune")
+	val solarSystem = mutableListOf("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune")
+    solarSystem.add("Pluto")
+    solarSystem.add(3, "Theia")
+    solarSystem[3] = "Future Moon"
+    solarSystem.removeAt(9)
+    solarSystem.remove("Future Moon")
+    //println(solarSystem.size)   
+    //println(solarSystem[2])
+    //println(solarSystem.get(3))
+    //println(solarSystem.indexOf("Earth"))
+    //println(solarSystem.indexOf("Pluto"))
+    //for (planet in solarSystem) {
+    //println(planet)
+    //println(solarSystem[3])
+	//println(solarSystem[9])
+    println(solarSystem.contains("Pluto"))
+    println("Future Moon" in solarSystem)
+//}
+}
+
+(Sets - Kotlin Playground)
+
+fun main() {
+    val solarSystem = mutableSetOf("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune")
+    //println(solarSystem.size)
+    //solarSystem.add("Pluto")
+    //println(solarSystem.size)
+    //solarSystem.add("Pluto")
+    //println(solarSystem.size)
+    solarSystem.remove("Pluto")
+    println(solarSystem.size)
+	println(solarSystem.contains("Pluto"))
+}
+
+(Map Collection - Kotlin Playground)
+
+fun main() {
+    val solarSystem = mutableMapOf(
+    "Mercury" to 0,
+    "Venus" to 0,
+    "Earth" to 1,
+    "Mars" to 2,
+    "Jupiter" to 79,
+    "Saturn" to 82,
+    "Uranus" to 27,
+    "Neptune" to 14
+)
+    //println(solarSystem.size)
+    //solarSystem["Pluto"] = 5
+    //println(solarSystem.size)
+    //println(solarSystem["Pluto"])
+    //println(solarSystem.get("Theia"))
+    //solarSystem.remove("Pluto")
+   // println(solarSystem.size)
+    solarSystem["Jupiter"] = 78
+	println(solarSystem["Jupiter"])
+}
+
+Cookie
+(ForEach - Kotlin Playground)
+
+class Cookie(
+    val name: String,
+    val softBaked: Boolean,
+    val hasFilling: Boolean,
+    val price: Double
+)
+
+val cookies = listOf(
+    Cookie(
+        name = "Chocolate Chip",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.69
+    ),
+    Cookie(
+        name = "Banana Walnut", 
+        softBaked = true, 
+        hasFilling = false, 
+        price = 1.49
+    ),
+    Cookie(
+        name = "Vanilla Creme",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.59
+    ),
+    Cookie(
+        name = "Chocolate Peanut Butter",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.49
+    ),
+    Cookie(
+        name = "Snickerdoodle",
+        softBaked = true,
+        hasFilling = false,
+        price = 1.39
+    ),
+    Cookie(
+        name = "Blueberry Tart",
+        softBaked = true,
+        hasFilling = true,
+        price = 1.79
+    ),
+    Cookie(
+        name = "Sugar and Sprinkles",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.39
+    )
+)
+
+fun main() {
+    cookies.forEach {
+        println("Menu item: ${it.name}")
+    }
+}
+
+(map() - Kotlin Playground)
+
+class Cookie(
+    val name: String,
+    val softBaked: Boolean,
+    val hasFilling: Boolean,
+    val price: Double
+)
+
+val cookies = listOf(
+    Cookie(
+        name = "Chocolate Chip",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.69
+    ),
+    Cookie(
+        name = "Banana Walnut", 
+        softBaked = true, 
+        hasFilling = false, 
+        price = 1.49
+    ),
+    Cookie(
+        name = "Vanilla Creme",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.59
+    ),
+    Cookie(
+        name = "Chocolate Peanut Butter",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.49
+    ),
+    Cookie(
+        name = "Snickerdoodle",
+        softBaked = true,
+        hasFilling = false,
+        price = 1.39
+    ),
+    Cookie(
+        name = "Blueberry Tart",
+        softBaked = true,
+        hasFilling = true,
+        price = 1.79
+    ),
+    Cookie(
+        name = "Sugar and Sprinkles",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.39
+    )
+)
+
+fun main() {
+   val fullMenu = cookies.map {
+    "${it.name} - $${it.price}"
+}
+   println("Full menu:")
+fullMenu.forEach {
+    println(it)
+
+    }
+}
+
+
+(filter() - Kotlin Playground)
+class Cookie(
+    val name: String,
+    val softBaked: Boolean,
+    val hasFilling: Boolean,
+    val price: Double
+)
+
+val cookies = listOf(
+    Cookie(
+        name = "Chocolate Chip",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.69
+    ),
+    Cookie(
+        name = "Banana Walnut", 
+        softBaked = true, 
+        hasFilling = false, 
+        price = 1.49
+    ),
+    Cookie(
+        name = "Vanilla Creme",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.59
+    ),
+    Cookie(
+        name = "Chocolate Peanut Butter",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.49
+    ),
+    Cookie(
+        name = "Snickerdoodle",
+        softBaked = true,
+        hasFilling = false,
+        price = 1.39
+    ),
+    Cookie(
+        name = "Blueberry Tart",
+        softBaked = true,
+        hasFilling = true,
+        price = 1.79
+    ),
+    Cookie(
+        name = "Sugar and Sprinkles",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.39
+    )
+)
+
+fun main() {
+  /* val fullMenu = cookies.map {
+    "${it.name} - $${it.price}"
+}
+  println("Full menu:")
+fullMenu.forEach {
+    println(it)
+    }*/
+val softBakedMenu = cookies.filter {
+    it.softBaked
+}
+println("Soft cookies:")
+softBakedMenu.forEach {
+    println("${it.name} - $${it.price}")
+}
+}
+
+
+(groupBy() - Kotlin Playground)
+class Cookie(
+    val name: String,
+    val softBaked: Boolean,
+    val hasFilling: Boolean,
+    val price: Double
+)
+
+val cookies = listOf(
+    Cookie(
+        name = "Chocolate Chip",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.69
+    ),
+    Cookie(
+        name = "Banana Walnut", 
+        softBaked = true, 
+        hasFilling = false, 
+        price = 1.49
+    ),
+    Cookie(
+        name = "Vanilla Creme",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.59
+    ),
+    Cookie(
+        name = "Chocolate Peanut Butter",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.49
+    ),
+    Cookie(
+        name = "Snickerdoodle",
+        softBaked = true,
+        hasFilling = false,
+        price = 1.39
+    ),
+    Cookie(
+        name = "Blueberry Tart",
+        softBaked = true,
+        hasFilling = true,
+        price = 1.79
+    ),
+    Cookie(
+        name = "Sugar and Sprinkles",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.39
+    )
+)
+
+fun main() {
+  /* val fullMenu = cookies.map {
+    "${it.name} - $${it.price}"
+}
+  println("Full menu:")
+fullMenu.forEach {
+    println(it)
+    }
+val softBakedMenu = cookies.filter {
+    it.softBaked
+}
+println("Soft cookies:")
+softBakedMenu.forEach {
+    println("${it.name} - $${it.price}")
+}*/
+    val groupedMenu = cookies.groupBy { it.softBaked }
+    val softBakedMenu = groupedMenu[true] ?: listOf()
+	val crunchyMenu = groupedMenu[false] ?: listOf()
+    println("Soft cookies:")
+softBakedMenu.forEach {
+    println("${it.name} - $${it.price}")
+}
+println("Crunchy cookies:")
+crunchyMenu.forEach {
+    println("${it.name} - $${it.price}")
+}
+}
+
+
+(fold() - Kotlin Playground)
+class Cookie(
+    val name: String,
+    val softBaked: Boolean,
+    val hasFilling: Boolean,
+    val price: Double
+)
+
+val cookies = listOf(
+    Cookie(
+        name = "Chocolate Chip",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.69
+    ),
+    Cookie(
+        name = "Banana Walnut", 
+        softBaked = true, 
+        hasFilling = false, 
+        price = 1.49
+    ),
+    Cookie(
+        name = "Vanilla Creme",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.59
+    ),
+    Cookie(
+        name = "Chocolate Peanut Butter",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.49
+    ),
+    Cookie(
+        name = "Snickerdoodle",
+        softBaked = true,
+        hasFilling = false,
+        price = 1.39
+    ),
+    Cookie(
+        name = "Blueberry Tart",
+        softBaked = true,
+        hasFilling = true,
+        price = 1.79
+    ),
+    Cookie(
+        name = "Sugar and Sprinkles",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.39
+    )
+)
+
+fun main() {
+  /* val fullMenu = cookies.map {
+    "${it.name} - $${it.price}"
+}
+  println("Full menu:")
+fullMenu.forEach {
+    println(it)
+    }
+val softBakedMenu = cookies.filter {
+    it.softBaked
+}
+println("Soft cookies:")
+softBakedMenu.forEach {
+    println("${it.name} - $${it.price}")
+}*/
+    /*val groupedMenu = cookies.groupBy { it.softBaked }
+    val softBakedMenu = groupedMenu[true] ?: listOf()
+	val crunchyMenu = groupedMenu[false] ?: listOf()
+    println("Soft cookies:")
+softBakedMenu.forEach {
+    println("${it.name} - $${it.price}")
+}
+println("Crunchy cookies:")
+crunchyMenu.forEach {
+    println("${it.name} - $${it.price}")
+}*/
+val totalPrice = cookies.fold(0.0) {total, cookie ->
+    total + cookie.price
+}
+    println("Total price: $${totalPrice}")
+
+}
+
+
+(sortedBy() - Kotlin Playground)
+
+class Cookie(
+    val name: String,
+    val softBaked: Boolean,
+    val hasFilling: Boolean,
+    val price: Double
+)
+
+val cookies = listOf(
+    Cookie(
+        name = "Chocolate Chip",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.69
+    ),
+    Cookie(
+        name = "Banana Walnut", 
+        softBaked = true, 
+        hasFilling = false, 
+        price = 1.49
+    ),
+    Cookie(
+        name = "Vanilla Creme",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.59
+    ),
+    Cookie(
+        name = "Chocolate Peanut Butter",
+        softBaked = false,
+        hasFilling = true,
+        price = 1.49
+    ),
+    Cookie(
+        name = "Snickerdoodle",
+        softBaked = true,
+        hasFilling = false,
+        price = 1.39
+    ),
+    Cookie(
+        name = "Blueberry Tart",
+        softBaked = true,
+        hasFilling = true,
+        price = 1.79
+    ),
+    Cookie(
+        name = "Sugar and Sprinkles",
+        softBaked = false,
+        hasFilling = false,
+        price = 1.39
+    )
+)
+
+fun main() {
+  /* val fullMenu = cookies.map {
+    "${it.name} - $${it.price}"
+}
+  println("Full menu:")
+fullMenu.forEach {
+    println(it)
+    }
+val softBakedMenu = cookies.filter {
+    it.softBaked
+}
+println("Soft cookies:")
+softBakedMenu.forEach {
+    println("${it.name} - $${it.price}")
+}*/
+    /*val groupedMenu = cookies.groupBy { it.softBaked }
+    val softBakedMenu = groupedMenu[true] ?: listOf()
+	val crunchyMenu = groupedMenu[false] ?: listOf()
+    println("Soft cookies:")
+softBakedMenu.forEach {
+    println("${it.name} - $${it.price}")
+}
+println("Crunchy cookies:")
+crunchyMenu.forEach {
+    println("${it.name} - $${it.price}")
+}*/
+val totalPrice = cookies.fold(0.0) {total, cookie ->
+    total + cookie.price
+}
+    //println("Total price: $${totalPrice}")
+    
+    val alphabeticalMenu = cookies.sortedBy {
+    it.name
+}
+    println("Alphabetical menu:")
+alphabeticalMenu.forEach {
+    println(it.name)
+}
+}
+
+Practice: Classes and Collections
+
+enum class Daypart {
+    MORNING,
+    AFTERNOON,
+    EVENING,
+}
+
+data class Event(
+    val title: String,
+    val description: String? = null,
+    val daypart: Daypart,
+    val durationInMinutes: Int,
+) {
+    val durationOfEvent: String
+        get() = if (durationInMinutes < 60) {
+            "short"
+        } else {
+            "long"
+        }
+}
+
+fun main() {
+    val event1 = Event(title = "Wake up", description = "Time to get up", daypart = Daypart.MORNING, durationInMinutes = 0)
+    val event2 = Event(title = "Eat breakfast", daypart = Daypart.MORNING, durationInMinutes = 15)
+    val event3 = Event(title = "Learn about Kotlin", daypart = Daypart.AFTERNOON, durationInMinutes = 30)
+    val event4 = Event(title = "Practice Compose", daypart = Daypart.AFTERNOON, durationInMinutes = 60)
+    val event5 = Event(title = "Watch latest DevBytes video", daypart = Daypart.AFTERNOON, durationInMinutes = 10)
+    val event6 = Event(title = "Check out latest Android Jetpack library", daypart = Daypart.EVENING, durationInMinutes = 45)
+
+    val events = mutableListOf<Event>(event1, event2, event3, event4, event5, event6)
+    val shortEvents = events.filter { it.durationInMinutes < 60 }
+    println("You have ${shortEvents.size} short events.")
+    
+    val groupedEvents = events.groupBy { it.daypart }
+    groupedEvents.forEach { (daypart, events) ->
+        println("$daypart: ${events.size} events")
+        println("Last event of the day: ${events.last().title}")
+        println("Duration of first event of the day: ${events.first().durationOfEvent}")
+    }
+}
