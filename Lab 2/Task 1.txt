@@ -1,0 +1,570 @@
+Task 1 
+
+Code name: Write conditionals in Kotlin
+
+2. fun main() {
+    val trafficLightColor = "Black"
+    
+    if(trafficLightColor == "Red"){
+        println("Stop")
+    }else if(trafficLightColor == "Yellow"){
+         println("Slow")
+    }else if(trafficLightColor == "Green"){
+        println("Go")
+    }else{
+        println("Invalid traffic-light color")
+    }
+}
+
+3. fun main() {
+    val trafficLightColor = "Yellow"
+    
+    when (trafficLightColor){
+        "Red" -> println("Stop")
+        "Yellow" -> println("Slow")
+        "Green" -> println("Go")
+        else -> println("Invalid traffic-light Color")
+    }
+}
+
+
+
+4. fun main() {
+    val trafficLightColor = "Amber"
+
+    val message = when(trafficLightColor) {
+        "Red" -> "Stop"
+        "Yellow", "Amber" -> "Slow"
+        "Green" -> "Go"
+        else -> "Invalid traffic-light color"
+    }
+    println(message)
+}
+
+Code name: Use Nullability in kotlin
+
+2. fun main() {
+    var favoriteActor: String? = "Sandra Oh"
+    println(favoriteActor)
+
+    favoriteActor = null
+    println(favoriteActor)
+}
+
+fun main() {
+    var number: Int? = 10
+    println(number)
+    
+    number = null
+    println(number)
+}
+
+
+3. fun main() {
+    var favoriteActor: String? = "Sandra Oh"
+
+    val lengthOfName = favoriteActor?.length ?: 0
+
+    println("The number of characters in your favorite actor's name is $lengthOfName.")
+}
+
+
+Program Name: Use classes and objects in Kotlin
+
+4. class SmartDevice {
+     fun turnOn() {
+        println("Smart device is turned on.")
+}
+     fun turnOff() {
+        println("Smart device is turned off.")
+}
+}
+
+fun main() {
+    val smartTvDevice = SmartDevice()
+     smartTvDevice.turnOn()
+smartTvDevice.turnOff()
+}
+
+
+5. class SmartDevice {
+
+    val name = "Android TV"
+    val category = "Entertainment"
+    var deviceStatus = "online"
+
+    fun turnOn() {
+        println("Smart device is turned on.")
+    }
+
+    fun turnOff() {
+        println("Smart device is turned off.")
+    }
+}
+fun main() {
+    val smartTvDevice = SmartDevice()
+    println("Device name is: ${smartTvDevice.name}")
+    smartTvDevice.turnOn()
+    smartTvDevice.turnOff()
+}
+
+
+challenge:
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
+
+open class SmartDevice (val name: String, val category: String){
+    var deviceStatus = "online"
+    protected set
+    
+    open val deviceType = "unknown"
+    
+	open fun turnOn() {
+        deviceStatus = "on"
+    }
+
+    open fun turnOff() {
+        deviceStatus = "off"
+    }
+    open fun printDeviceInfo() {
+        println("Device name: $name, category: $category, type: $deviceType")
+    }
+    /*constructor(name: String, category: String, statusCode: Int) : this(name, category) {
+        deviceStatus = when (statusCode) {
+            0 -> "offline"
+            1 -> "online"
+            else -> "unknown"
+    }
+}*/
+}
+
+class SmartTvDevice(deviceName: String, deviceCategory: String) :
+    SmartDevice(name = deviceName, category = deviceCategory) {
+
+   	override val deviceType = "Smart Tv"
+        
+    private var speakerVolume by RangeRegulator(initialValue = 2, minValue = 0, maxValue = 100)
+
+    private var channelNumber by RangeRegulator(initialValue = 1, minValue = 0, maxValue = 200)
+   	
+        /*private var speakerVolume = 2
+        set(value) {
+            if (value in 0..100) {
+                field = value
+            }
+        }
+
+   private var channelNumber = 1
+        set(value) {
+            if (value in 0..200) {
+                field = value
+            }
+        }*/
+    
+    fun increaseSpeakerVolume() {
+        speakerVolume++
+        println("Speaker volume increased to $speakerVolume.")
+    }
+
+    fun nextChannel() {
+        channelNumber++
+        println("Channel number increased to $channelNumber.")
+    }
+    
+    fun decreaseSpeakerVolume() {
+        speakerVolume--
+        println("Speaker volume decreased to $speakerVolume.")
+    }
+
+    fun previousChannel() {
+        channelNumber--
+        println("Channel number decreased to $channelNumber.")
+    }
+    
+    override fun turnOn() {
+        super.turnOn()
+        println(
+            "$name is turned on. Speaker volume is set to $speakerVolume and channel number is " +
+                "set to $channelNumber.")
+    }
+    override fun turnOff() {
+        super.turnOff()
+        println("$name turned off")
+    }
+}
+    
+    class SmartLightDevice(deviceName: String, deviceCategory: String) :
+   	 SmartDevice(name = deviceName, category = deviceCategory) {
+
+        override val deviceType = "Smart Light"
+         
+        private var brightnessLevel by RangeRegulator(initialValue = 0, minValue = 0, maxValue = 100)
+    	
+        /*private var brightnessLevel = 0
+        set(value) {
+            if (value in 0..100) {
+                field = value
+            }
+        }*/
+
+    fun increaseBrightness() {
+        brightnessLevel++
+        println("Brightness increased to $brightnessLevel.")
+    }
+    fun decreaseBrightness() {
+        brightnessLevel--
+        println("Brightness decreased to $brightnessLevel.")
+    }
+    override fun turnOn() {
+        super.turnOn()
+        brightnessLevel = 2
+        println("$name turned on. The brightness level is $brightnessLevel.")
+    }
+    override fun turnOff() {
+        super.turnOff()
+        brightnessLevel = 0
+        println("Smart Light turned off")
+    	}
+    }
+  class SmartHome(
+    	val smartTvDevice: SmartTvDevice,
+    	val smartLightDevice: SmartLightDevice) {
+        
+        var deviceTurnOnCount = 0
+        private set
+        
+    private fun checkDeviceStatus(device: SmartDevice): Boolean {
+        return device.deviceStatus == "on"
+    }
+    
+	fun turnOnTv() {
+        if (checkDeviceStatus(smartTvDevice)) {
+            deviceTurnOnCount++
+            smartTvDevice.turnOn()
+        } else {
+            println("Cannot turn on TV. Device is not online.")
+        }
+    }
+
+    fun turnOffTv() {
+        if (checkDeviceStatus(smartTvDevice)) {
+            deviceTurnOnCount--
+            smartTvDevice.turnOff()
+        } else {
+            println("Cannot turn off TV. Device is not online.")
+        }
+    }
+    
+    fun increaseTvVolume() {
+        if (checkDeviceStatus(smartTvDevice)) {
+            smartTvDevice.increaseSpeakerVolume()
+        } else {
+            println("Cannot increase TV volume. Device is not online.")
+        }
+    }
+    
+    fun decreaseTvVolume() {
+        if (checkDeviceStatus(smartTvDevice)) {
+            smartTvDevice.decreaseSpeakerVolume()
+        } else {
+            println("Cannot decrease TV volume. Device is not online.")
+        }
+    }
+    
+    fun changeTvChannelToNext() {
+        if (checkDeviceStatus(smartTvDevice)) {
+            smartTvDevice.nextChannel()
+        } else {
+            println("Cannot change TV channel. Device is not online.")
+        }
+    }
+    
+    fun changeTvChannelToPrevious() {
+        if (checkDeviceStatus(smartTvDevice)) {
+            smartTvDevice.previousChannel()
+        } else {
+            println("Cannot change TV channel. Device is not online.")
+        }
+    }
+    
+    fun turnOnLight() {
+        if (checkDeviceStatus(smartLightDevice)) {
+            deviceTurnOnCount++
+            smartLightDevice.turnOn()
+        } else {
+            println("Cannot turn on light. Device is not online.")
+        }
+    }
+    
+    fun turnOffLight() {
+        if (checkDeviceStatus(smartLightDevice)) {
+            deviceTurnOnCount--
+            smartLightDevice.turnOff()
+        } else {
+            println("Cannot turn off light. Device is not online.")
+        }
+    }
+    
+    fun increaseLightBrightness() {
+       if (checkDeviceStatus(smartLightDevice)) {
+            smartLightDevice.increaseBrightness()
+        } else {
+            println("Cannot increase light brightness. Device is not online.")
+        }
+    }
+    
+    fun decreaseLightBrightness() {
+       if (checkDeviceStatus(smartLightDevice)) {
+            smartLightDevice.decreaseBrightness()
+        } else {
+            println("Cannot decrease light brightness. Device is not online.")
+        }
+    }
+    
+    fun turnOffAllDevices() {
+        turnOffTv()
+        turnOffLight()
+    }
+}
+
+class RangeRegulator(
+	initialValue: Int,
+    private val minValue: Int,
+    private val maxValue: Int
+) : ReadWriteProperty<Any?, Int> {
+    
+	var fieldData = initialValue
+    
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Int {
+        return fieldData
+    }
+
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
+    	if (value in minValue..maxValue) {
+            fieldData = value
+    	}
+	}
+}
+fun main() {
+    val smartTvDevice = SmartTvDevice("Android TV", "Entertainment")
+    val smartLightDevice = SmartLightDevice("Google Light", "Utility")
+
+    val smartHome = SmartHome(smartTvDevice, smartLightDevice)
+
+    smartTvDevice.printDeviceInfo()
+    smartLightDevice.printDeviceInfo()
+}
+
+
+lambda:
+
+fun main() {
+    val treatFunction = trickOrTreat(false) { "$it quarters" }
+    val trickFunction = trickOrTreat(true, null)
+    repeat(4) {
+        treatFunction()
+    }
+    trickFunction()
+}
+
+fun trickOrTreat(isTrick: Boolean, extraTreat: ((Int) -> String)?): () -> Unit {
+    if (isTrick) {
+        return trick
+    } else {
+        if (extraTreat != null) {
+            println(extraTreat(5))
+        }
+        return treat
+    }
+}
+
+val trick = {
+    println("No treats!")
+}
+
+val treat = {
+    println("Have a treat!")
+}
+
+
+
+Mobile:
+
+fun main() {
+    val morningNotification = 51
+    val eveningNotification = 135
+    
+    printNotificationSummary(morningNotification)
+    printNotificationSummary(eveningNotification)
+}
+
+fun printNotificationSummary(numberOfMessages: Int) {
+    val message = when {
+        numberOfMessages == 0 -> "No new notifications."
+        numberOfMessages == 1 -> "One new notification."
+        else -> "$numberOfMessages new notifications."
+}
+     println(message)
+}
+
+Movie:
+
+fun main() {
+    val child = 5
+    val adult = 28
+    val senior = 87
+    
+    val isMonday = true
+    
+    println("The movie ticket price for a person aged $child is \$${ticketPrice(child, isMonday)}.")
+    println("The movie ticket price for a person aged $adult is \$${ticketPrice(adult, isMonday)}.")
+    println("The movie ticket price for a person aged $senior is \$${ticketPrice(senior, isMonday)}.")
+}
+
+fun ticketPrice(age: Int, isMonday: Boolean): Int {
+    return when {
+        age in 0..12 -> 15 
+        age in 13..60 -> if (isMonday) 25 else 30 
+        age in 61..100 -> 20 
+        else -> -1 
+    }
+}
+
+Temperature:
+
+fun main() {
+    val celsiusToFahrenheit: (Double) -> Double = { celsius -> celsius * 9 / 5 + 32 }
+    val kelvinToCelsius: (Double) -> Double = { kelvin -> kelvin - 273.15 }
+    val fahrenheitToKelvin: (Double) -> Double = { fahrenheit -> (fahrenheit - 32) * 5 / 9 + 273.15 }
+
+    printFinalTemperature(27.0, "Celsius", "Fahrenheit", celsiusToFahrenheit)
+    printFinalTemperature(350.0, "Kelvin", "Celsius", kelvinToCelsius)
+    printFinalTemperature(10.0, "Fahrenheit", "Kelvin", fahrenheitToKelvin)
+}
+
+
+fun printFinalTemperature(
+    initialMeasurement: Double, 
+    initialUnit: String, 
+    finalUnit: String, 
+    conversionFormula: (Double) -> Double
+) {
+    val finalMeasurement = String.format("%.2f", conversionFormula(initialMeasurement)) // two decimal places
+    println("$initialMeasurement degrees $initialUnit is $finalMeasurement degrees $finalUnit.")
+}
+
+Song:
+
+fun main() {    
+    val brunoSong = Song("We Don't Talk About Bruno", "Encanto Cast", 2022, 1_000_000)
+    brunoSong.printDescription()
+    println(brunoSong.isPopular)
+}
+
+class Song(
+    var title: String,
+    var artist: String,
+    var yearPublished: Int,
+    var playCount: Int
+) {
+    val isPopular: Boolean
+        get() = playCount >= 1000
+
+    fun printSongDescription() {
+        println("$title, performed by $artist, was released in $yearPublished.")
+    }
+}
+
+
+internet:
+
+fun main() {    
+    val amanda = Person("Amanda", 33, "play tennis", null)
+    val atiqah = Person("Atiqah", 28, "climb", amanda)
+    
+    amanda.showProfile()
+    atiqah.showProfile()
+}
+
+
+class Person(val name: String, val age: Int, val hobby: String?, val referrer: Person?) {
+    fun showProfile() {
+       println("Name: $name")
+        println("Age: $age")
+        if (hobby != null) {
+            print("Likes to $hobby.")
+        }
+        if (referrer != null) {
+            println("Has a referrer named ${referrer.name}, who likes to ${referrer.hobby ?: "do something"}.")
+        } else {
+            println("Doesn't have a referrer.")
+        }
+        println()
+    }
+}
+
+foldable:
+
+open class Phone(var isScreenLightOn: Boolean = false){
+    open fun switchOn() {
+        isScreenLightOn = true
+    }
+    
+    fun switchOff() {
+        isScreenLightOn = false
+    }
+    
+    fun checkPhoneScreenLight() {
+        val phoneScreenLight = if (isScreenLightOn) "on" else "off"
+        println("The phone screen's light is $phoneScreenLight.")
+    }
+}
+
+class FoldablePhone(var isFolded: Boolean = true): Phone() {
+    override fun switchOn() {
+        if (!isFolded) {
+            isScreenLightOn = true
+        }
+    }
+    
+    fun fold() {
+        isFolded = true
+    }
+    
+    fun unfold() {
+        isFolded = false
+    }
+}
+
+fun main() {    
+    val newFoldablePhone = FoldablePhone()
+    
+    newFoldablePhone.switchOn()
+    newFoldablePhone.checkPhoneScreenLight()
+    newFoldablePhone.unfold()
+    newFoldablePhone.switchOn()
+    newFoldablePhone.checkPhoneScreenLight()
+}
+
+special auction:
+
+fun main() {
+    val winningBid = Bid(5000, "Private Collector")
+    
+    println("Item A is sold at ${auctionPrice(winningBid, 2000)}.")
+    println("Item B is sold at ${auctionPrice(null, 3000)}.")
+}
+
+class Bid(val amount: Int, val bidder: String)
+ 
+fun auctionPrice(bid: Bid?, minimumPrice: Int): Int {
+   return if (bid != null && bid.amount > minimumPrice) {
+        bid.amount
+    } else {
+        minimumPrice
+    }
+}
+
+
+
+    
