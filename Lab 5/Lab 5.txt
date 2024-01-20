@@ -1,0 +1,250 @@
+Unit1: Kotlin Basics
+
+1. fun main() {
+    println("Happy Birthday!")
+    println("Jhansi")
+    println("You are 25!")
+}
+
+2. fun main() {
+    val age = 24
+    val layers = 5
+    printCakeCandles(age)
+    printCakeTop(age)
+    printCakeBottom(age, layers)
+}
+
+fun printCakeCandles(age: Int) {
+    print (" ")
+    repeat(age) {
+          print(",")
+    }    
+    println() // Print an empty line
+
+    print(" ") // Print the inset of the candles on the cake
+    repeat(age) {
+        print("|")
+    }    
+    println()
+}
+
+fun printCakeTop(age: Int) {
+    repeat(age + 2) {
+        print("=")
+    }
+    println()
+}
+
+fun printCakeBottom(age: Int, layers: Int) {
+    repeat(layers) {
+        repeat(age + 2) {
+            print("@")
+        }
+        println()
+    }    
+}
+
+
+Unit2:Layouts
+
+1.
+import kotlin.math.PI
+import kotlin.math.sqrt
+fun main() {
+   val squareCabin = SquareCabin(6, 50.0)
+   val roundHut = RoundHut(3, 10.0)
+   val roundTower = RoundTower(4, 15.5)
+   with(squareCabin) {
+       println("\nSquare Cabin\n============")
+       println("Capacity: ${capacity}")
+       println("Material: ${buildingMaterial}")
+       println("Floor area: ${floorArea()}")
+   }
+   with(roundHut) {
+       println("\nRound Hut\n=========")
+       println("Material: ${buildingMaterial}")
+       println("Capacity: ${capacity}")
+       println("Floor area: ${floorArea()}")
+       println("Has room? ${hasRoom()}")
+       getRoom()
+       println("Has room? ${hasRoom()}")
+       getRoom()
+       println("Carpet size: ${calculateMaxCarpetLength()}")
+   }
+   with(roundTower) {
+       println("\nRound Tower\n==========")
+       println("Material: ${buildingMaterial}")
+       println("Capacity: ${capacity}")
+       println("Floor area: ${floorArea()}")
+       println("Carpet Length: ${calculateMaxCarpetLength()}")
+   }
+}
+abstract class Dwelling(private var residents: Int) {
+   abstract val buildingMaterial: String
+   abstract val capacity: Int
+   abstract fun floorArea(): Double
+   fun hasRoom(): Boolean {
+       return residents < capacity
+   }
+   fun getRoom() {
+       if (capacity > residents) {
+           residents++
+           println("You got a room!")
+       } else {
+           println("Sorry, at capacity and no rooms left.")
+       }
+   }
+   }
+class SquareCabin(residents: Int, val length: Double) : Dwelling(residents) {
+   override val buildingMaterial = "Wood"
+   override val capacity = 6
+   override fun floorArea(): Double {
+       return length * length
+   }
+}
+open class RoundHut(
+       residents: Int, val radius: Double) : Dwelling(residents) {
+
+   override val buildingMaterial = "Straw"
+   override val capacity = 4
+   override fun floorArea(): Double {
+       return PI * radius * radius
+   }
+    fun calculateMaxCarpetLength(): Double {
+        return sqrt(2.0) * radius
+    }
+}
+class RoundTower(
+       residents: Int,
+       radius: Double,
+       val floors: Int = 2) : RoundHut(residents, radius) {
+
+   override val buildingMaterial = "Stone"
+   override val capacity = floors * 4
+   override fun floorArea(): Double {
+       return super.floorArea() * floors
+   }
+}
+
+
+Unit 3:
+open class Item(val name: String, val price: Int)
+
+class Noodles : Item("Noodles", 10) {
+    override fun toString(): String {
+        return name
+    }
+}
+
+class Vegetables(vararg val toppings: String) : Item("Vegetables", 5) {
+    override fun toString(): String {
+        if (toppings.isEmpty()) {
+            return "$name Chef's Choice"
+        } else {
+            return name + " " + toppings.joinToString()
+        }
+    }
+}
+
+class Order(val orderNumber: Int) {
+    private val itemList = mutableListOf<Item>()
+
+    fun addItem(newItem: Item): Order {
+        itemList.add(newItem)
+        return this
+    }
+
+    fun addAll(newItems: List<Item>): Order {
+        itemList.addAll(newItems)
+        return this
+    }
+
+    fun print() {
+        println("Order #${orderNumber}")
+        var total = 0
+        for (item in itemList) {
+            println("${item}: $${item.price}")
+            total += item.price
+        }
+        println("Total: $${total}")
+    }
+}
+
+fun main() {
+    val ordersList = mutableListOf<Order>()
+
+    // Add an item to an order
+    val order1 = Order(1)
+    order1.addItem(Noodles())
+    ordersList.add(order1)
+
+    // Add multiple items individually
+    val order2 = Order(2)
+    order2.addItem(Noodles())
+    order2.addItem(Vegetables())
+    ordersList.add(order2)
+
+    // Add a list of items at one time
+    val order3 = Order(3)
+    val items = listOf(Noodles(), Vegetables("Carrots", "Beans", "Celery"))
+    order3.addAll(items)
+    ordersList.add(order3)
+
+    // Use builder pattern
+    val order4 = Order(4)
+        .addItem(Noodles())
+        .addItem(Vegetables("Cabbage", "Onion"))
+    ordersList.add(order4)
+
+    // Create and add order directly
+    ordersList.add(
+        Order(5)
+            .addItem(Noodles())
+            .addItem(Noodles())
+            .addItem(Vegetables("Spinach"))
+    )
+
+    // Print out each order
+    for (order in ordersList) {
+        order.print()
+        println()
+    }
+}
+
+
+Unit 3 Pathway 1:
+fun main() {
+    val numbers = listOf(0, 3, 8, 4, 0, 5, 5, 8, 9, 2)
+    println("list:   ${numbers}")
+    println("sorted: ${numbers.sorted()}")
+    val setOfNumbers = numbers.toSet()
+    println("set:    ${setOfNumbers}")
+    val set1 = setOf(1,2,3)
+    val set2 = mutableSetOf(3,2,1)
+    println("$set1 == $set2: ${set1 == set2}")
+    println("contains 7: ${setOfNumbers.contains(7)}")
+}
+
+----------------------------------------------------------------------------------------------
+
+fun main() {
+    val peopleAges = mutableMapOf<String, Int>(
+        "Fred" to 30,
+        "Ann" to 23
+    )
+    peopleAges.put("Barbara", 42)
+    peopleAges["Joe"] = 51
+    println(peopleAges)
+}
+
+------------------------------------------------------------------------------------------------
+fun main() {
+    val words = listOf("about", "acute", "awesome", "balloon", "best", "brief", "class", "coffee", "creative")
+    val filteredWords = words.filter { it.startsWith("b", ignoreCase = true) }
+        .shuffled()
+        .take(2)
+        .sorted()
+    println(filteredWords)
+}
+
+
