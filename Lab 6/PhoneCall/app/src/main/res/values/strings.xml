@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">PhoneCallingSample</string>
+    <string name="contact">Jane Doe</string>
+    <string name="phone_number">0151464869</string>
+    <string name="make_a_call">Make a call</string>
+    <string name="telephony_enabled">Telephony is enabled</string>
+    <string name="telephony_not_enabled">TELEPHONY NOT ENABLED! </string>
+    <string name="phone_disabled">Phone calling disabled</string>
+    <string name="failure_permission">Failure to obtain permission!</string>
+    <string name="permission_not_granted">PERMISSION NOT GRANTED!</string>
+    <string name="phone_status">Phone Status: </string>
+    <string name="ringing">RINGING, number: </string>
+    <string name="offhook">OFFHOOK</string>
+    <string name="idle">IDLE</string>
+    <string name="restarting_app">Restarting app</string>
+
+</resources>
