@@ -28,7 +28,7 @@ class SuccessActivity : AppCompatActivity() {
         if (username.isNullOrEmpty()) {
             usernameTextView.text = "Welcome, Guest!"
         } else {
-            usernameTextView.text = "Welcome, $username!"
+            usernameTextView.text = "Login Successful..Welcome, $username!"
         }
     }
 
